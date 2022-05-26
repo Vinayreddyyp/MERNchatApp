@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
 
 
     socket.on('sendMessage', (message, callback) => {
+        console.log('message has been invoked', message);
         const filter = new Filter();
         if (filter.isProfane(message)) {
             return callback('Profanity is not allowed')
