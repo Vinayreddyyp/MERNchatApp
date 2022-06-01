@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
         if (filter.isProfane(message)) {
             return callback('Profanity is not allowed')
         }
-        io.emit('message', generateMessage(message));
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined the chat`));
         callback();
     });
 
