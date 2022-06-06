@@ -1,4 +1,4 @@
-const suer = [];
+const users = [];
 
 const addUser = ({ id, username, room }) => {
     username = username.trim().toLowerCase();
@@ -19,7 +19,7 @@ const addUser = ({ id, username, room }) => {
     }
 
     const user = { id, username, room };
-    user.push(user)
+    users.push(user)
     return { user }
 
 }
@@ -28,4 +28,13 @@ addUser({
     id: 22,
     username: 'Andrew',
     room: 'south philly'
+});
+
+console.log(users);
+const res = addUser({
+    id: 33,
+    username: '',
+    room: ''
 })
+
+console.log('res', res)
