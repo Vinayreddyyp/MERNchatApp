@@ -23,3 +23,9 @@ const addUser = ({ id, username, room }) => {
     return { user }
 
 }
+
+addUser({
+    id: 22,
+    username: 'Andrew',
+    room: 'south philly'
+})
