@@ -4,6 +4,8 @@ const express = require('express');
 const socketio = require('socket.io');
 const Filter = require('bad-words');
 const { generateMessage, generateLocationMessage } = require('./utils/messages');
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -18,16 +20,21 @@ let count = 0;
 
 io.on('connection', (socket) => {
     socket.emit('countUpdated', count);
-    socket.on('increment', () => {
-        count++;
-        io.emit('countUpdated', count);
-    })
 
-    socket.emit('message', generateMessage('Welcome Message'));
-    socket.broadcast.emit('message', 'A new user has joined the team');
 
-    socket.on('joined', ({ username, room }) => {
+
+
+
+    socket.on('joined', ({ username, room }, callback) => {
+        const { user, error } = addUser({ id: socket.id, username, room })
+
+        if (error) {
+            return callback(error);
+        }
         socket.join(room)
+        socket.emit('message', generateMessage('Welcome Message'));
+        socket.broadcast.to(room).emit('message', 'A new user has joined the team');
+        callback();
     })
     socket.on('sendMessage', (message, callback) => {
         console.log('message has been invoked', message);
